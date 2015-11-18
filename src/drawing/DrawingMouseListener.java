@@ -40,8 +40,6 @@ public class DrawingMouseListener implements MouseMotionListener, MouseListener 
 							}
 						}
 					}
-					currentShape.setOrigin(e.getPoint());
-					drawing.repaint();
 				}
 			}
 		}
