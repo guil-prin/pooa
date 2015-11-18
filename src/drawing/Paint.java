@@ -18,6 +18,8 @@ public class Paint implements Observer {
 	private JButton clearButton;
 	private JButton circleButton;
 	private JButton rectangleButton;
+	private JButton groupButton;
+	private JButton dissociateButton;
 	private JPanel statusPanel;
 	private JPanel buttonPanel;
 	private JPanel bottomPanel;
@@ -37,6 +39,8 @@ public class Paint implements Observer {
 		clearButton = new JButton("Clear");
 		circleButton = new JButton("Circle");
 		rectangleButton = new JButton("Rectangle");
+		groupButton = new JButton("Group");
+		dissociateButton = new JButton("Dissociate");
 		
 		bottomPanel = new JPanel(new BorderLayout());
 		
@@ -50,6 +54,8 @@ public class Paint implements Observer {
 		buttonPanel.add(clearButton);
 		buttonPanel.add(circleButton);
 		buttonPanel.add(rectangleButton);
+		buttonPanel.add(groupButton);
+		buttonPanel.add(dissociateButton);
 		
 		bottomPanel.add(statusPanel, BorderLayout.NORTH);
 		bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -60,6 +66,8 @@ public class Paint implements Observer {
 		clearButton.addActionListener(new ClearButtonListener(drawing));
 		circleButton.addActionListener(new CircleButtonListener(drawing));
 		rectangleButton.addActionListener(new RectangleButtonListener(drawing));
+		groupButton.addActionListener(new GroupButtonListener(drawing));
+		dissociateButton.addActionListener(new DissociateButtonListener(drawing));
 		
 		//listeners pour la zone de dessin
 		DrawingMouseListener l = new DrawingMouseListener(drawing);

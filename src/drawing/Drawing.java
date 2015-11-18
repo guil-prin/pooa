@@ -1,6 +1,7 @@
 package drawing;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.*;
 /**
@@ -11,6 +12,8 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	private static final long serialVersionUID = 1L;
 	
 	ArrayList<Shape> shapes;
+	Shape currentShape = null;
+	ArrayList<Shape> groupedShapes;
 	
 	private Vector<Observer> observers = new Vector<>();
 
@@ -19,6 +22,7 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	public Drawing(){
 		super();
 		shapes = new ArrayList<Shape>();
+		groupedShapes = new ArrayList<Shape>();
 	}
 	
 	public void addObserver(Observer obs){
@@ -67,10 +71,29 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	 */
 	public void clear(){
 		shapes.clear();
+		groupedShapes.clear();
 		this.repaint();
 		counter = 0;
 		notifyObservers();
 	}
 	
+	/**
+	 * Groupe la shape selectionnee dans la liste.
+	 */
+	public void groupShape(){
+		if(currentShape != null && !(groupedShapes.contains(currentShape))) {
+			groupedShapes.add(currentShape);
+			notifyObservers();
+		}
+	}
 	
+	/**
+	 * Degroupe la shape selectionnee dans la liste.
+	 */
+	public void dissociateShape(){
+		if(currentShape != null && !(groupedShapes.contains(currentShape))) {
+			groupedShapes.remove(currentShape);
+			notifyObservers();
+		}
+	}
 }
