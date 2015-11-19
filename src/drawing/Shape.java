@@ -6,7 +6,7 @@ import java.awt.Point;
 /**
  * Classe abstraite de type forme dessinable.
  */
-public abstract class Shape {
+public abstract class Shape implements Cloneable {
 	
 	protected Point origin;
 	
@@ -17,6 +17,18 @@ public abstract class Shape {
 	
 	public Point getOrigin() {
 		return origin;
+	}
+	
+	@Override
+	public Shape clone() {
+		Object o = null;
+		
+		try {
+			o = super.clone();
+		} catch(CloneNotSupportedException cnse) {
+			cnse.printStackTrace(System.err);
+		}
+		return (Shape) o;
 	}
 	
 	/**

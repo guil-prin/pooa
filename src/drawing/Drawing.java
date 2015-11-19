@@ -69,7 +69,7 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	/**
 	 * Enleve toutes les formes et redessine
 	 */
-	public void clear(){
+	public void clear() {
 		shapes.clear();
 		groupedShapes.clear();
 		this.repaint();
@@ -80,7 +80,7 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	/**
 	 * Groupe la shape selectionnee dans la liste.
 	 */
-	public void groupShape(){
+	public void groupShape() {
 		if(currentShape != null && !(groupedShapes.contains(currentShape))) {
 			groupedShapes.add(currentShape);
 			notifyObservers();
@@ -90,9 +90,17 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	/**
 	 * Degroupe la shape selectionnee dans la liste.
 	 */
-	public void dissociateShape(){
+	public void dissociateShape() {
 		if(currentShape != null && !(groupedShapes.contains(currentShape))) {
 			groupedShapes.remove(currentShape);
+			notifyObservers();
+		}
+	}
+	
+	public void duplicateShape() {
+		if(currentShape != null) {
+			Shape s = currentShape.clone();
+			this.addShape(s);
 			notifyObservers();
 		}
 	}
