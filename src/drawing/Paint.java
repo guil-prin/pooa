@@ -21,8 +21,12 @@ public class Paint implements Observer {
 	private JButton groupButton;
 	private JButton dissociateButton;
 	private JButton cloneButton;
+	private JButton undoButton;
+	private JButton redoButton;
 	private JPanel statusPanel;
 	private JPanel buttonPanel;
+	private JPanel createPanel;
+	private JPanel interactPanel;
 	private JPanel bottomPanel;
 	private JPanel mainPanel;
 	private JTextField statusBar;
@@ -43,6 +47,8 @@ public class Paint implements Observer {
 		groupButton = new JButton("Group");
 		dissociateButton = new JButton("Dissociate");
 		cloneButton = new JButton("Duplicate");
+		undoButton = new JButton("Undo");
+		redoButton = new JButton("Redo");
 		
 		bottomPanel = new JPanel(new BorderLayout());
 		
@@ -52,15 +58,21 @@ public class Paint implements Observer {
 		statusBar.setPreferredSize(new Dimension(WIDTH, 20));
 		statusBar.setText(Integer.toString(0));
 		
-		buttonPanel = new JPanel();
-		buttonPanel.add(clearButton);
-		buttonPanel.add(circleButton);
-		buttonPanel.add(rectangleButton);
-		buttonPanel.add(groupButton);
-		buttonPanel.add(dissociateButton);
-		buttonPanel.add(cloneButton);
+		buttonPanel = new JPanel(new BorderLayout());
+		createPanel = new JPanel();
+		interactPanel = new JPanel();
+		createPanel.add(clearButton);
+		createPanel.add(circleButton);
+		createPanel.add(rectangleButton);
+		interactPanel.add(groupButton);
+		interactPanel.add(dissociateButton);
+		interactPanel.add(cloneButton);
+		interactPanel.add(undoButton);
+		interactPanel.add(redoButton);
 		
 		bottomPanel.add(statusPanel, BorderLayout.NORTH);
+		buttonPanel.add(createPanel, BorderLayout.NORTH);
+		buttonPanel.add(interactPanel, BorderLayout.SOUTH);
 		bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 		mainPanel.add(drawing, BorderLayout.CENTER);
@@ -72,6 +84,8 @@ public class Paint implements Observer {
 		groupButton.addActionListener(new GroupButtonListener(drawing));
 		dissociateButton.addActionListener(new DissociateButtonListener(drawing));
 		cloneButton.addActionListener(new CloneButtonListener(drawing));
+		undoButton.addActionListener(new UndoButtonListener(drawing));
+		redoButton.addActionListener(new RedoButtonListener(drawing));
 		
 		//listeners pour la zone de dessin
 		DrawingMouseListener l = new DrawingMouseListener(drawing);

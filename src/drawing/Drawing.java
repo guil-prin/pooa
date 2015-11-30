@@ -15,6 +15,9 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	Shape currentShape = null;
 	ArrayList<Shape> groupedShapes;
 	
+	ArrayList<Shape> undoCommands;
+	ArrayList<Shape> redoCommands;
+	
 	private Vector<Observer> observers = new Vector<>();
 
 	int counter = 0;
@@ -23,6 +26,8 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 		super();
 		shapes = new ArrayList<Shape>();
 		groupedShapes = new ArrayList<Shape>();
+		undoCommands = new ArrayList<Shape>();
+		redoCommands = new ArrayList<Shape>();
 	}
 	
 	public void addObserver(Observer obs){
@@ -51,6 +56,8 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	 */
 	public void addShape(Shape s){
 		shapes.add(s);
+		undoCommands.add(s);
+		redoCommands.clear();
 		this.repaint();
 		counter++;
 		notifyObservers();
@@ -91,7 +98,7 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 	 * Degroupe la shape selectionnee dans la liste.
 	 */
 	public void dissociateShape() {
-		if(currentShape != null && !(groupedShapes.contains(currentShape))) {
+		if(currentShape != null && (groupedShapes.contains(currentShape))) {
 			groupedShapes.remove(currentShape);
 			notifyObservers();
 		}
@@ -101,6 +108,30 @@ public class Drawing extends JPanel implements Iterable<Shape> {
 		if(currentShape != null) {
 			Shape s = currentShape.clone();
 			this.addShape(s);
+			notifyObservers();
+		}
+	}
+	
+	public void cancelWork() {
+		if(undoCommands.size() > 0) {
+			Shape s = undoCommands.get(undoCommands.size() - 1);
+			undoCommands.remove(s);
+			redoCommands.add(s);
+			shapes.remove(s);
+			this.repaint();
+			counter--;
+			notifyObservers();
+		}
+	}
+	
+	public void redoWork() {
+		if(redoCommands.size() > 0) {
+			Shape s = redoCommands.get(redoCommands.size() - 1);
+			redoCommands.remove(s);
+			undoCommands.add(s);
+			shapes.add(s);
+			this.repaint();
+			counter++;
 			notifyObservers();
 		}
 	}
